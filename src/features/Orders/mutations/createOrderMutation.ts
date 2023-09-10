@@ -19,7 +19,7 @@ export const createOrderMutation: GqlMutationResolvers<HollofabrikaContext>["cre
         const { items: orderedProducts } = await queryAll<DbOrderProduct>(context.db, aql`
             for product in ${args.products}
             for productView in ${allProductsView}
-            filter product.id == productView
+            filter product.id == productView._id
             return {
                 id: productView._id,
                 price: productView.price,
