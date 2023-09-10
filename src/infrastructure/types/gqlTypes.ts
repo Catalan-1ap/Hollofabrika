@@ -142,25 +142,25 @@ export enum GqlErrorCode {
 }
 
 export enum GqlErrors {
-  AnonymousGuardForbidden = "AnonymousGuard_Forbidden",
-  ChangeCategoryCategoriesAreSame = "ChangeCategory_CategoriesAreSame",
-  ChangeCategoryNewCategoryNotExists = "ChangeCategory_NewCategoryNotExists",
-  ChangeCategoryProductNotExists = "ChangeCategory_ProductNotExists",
-  ConfirmOrderOrderRequestNotExists = "ConfirmOrder_OrderRequestNotExists",
-  CreateCategoryCategoryExists = "CreateCategory_CategoryExists",
-  CreateProductCategoryNotExists = "CreateProduct_CategoryNotExists",
-  DeleteCategoryCategoryNotExists = "DeleteCategory_CategoryNotExists",
-  DeleteProductProductNotExists = "DeleteProduct_ProductNotExists",
-  LoginWrongPasswordError = "Login_WrongPasswordError",
-  LoginWrongUsernameError = "Login_WrongUsernameError",
-  ProductProductNotExists = "Product_ProductNotExists",
-  RefreshUsedTokenError = "Refresh_UsedTokenError",
-  RefreshWrongTokenError = "Refresh_WrongTokenError",
-  RegisterEmailWrong = "Register_EmailWrong",
-  RoleGuardForbidden = "RoleGuard_Forbidden",
-  UpdateCategoryCategoryNotExists = "UpdateCategory_CategoryNotExists",
-  UpdateProductProductNotExists = "UpdateProduct_ProductNotExists",
-  VerifyEmailWrongToken = "VerifyEmail_WrongToken"
+  AnonymousGuardForbidden = "AnonymousGuardForbidden",
+  ChangeCategoryCategoriesAreSame = "ChangeCategoryCategoriesAreSame",
+  ChangeCategoryNewCategoryNotExists = "ChangeCategoryNewCategoryNotExists",
+  ChangeCategoryProductNotExists = "ChangeCategoryProductNotExists",
+  ConfirmOrderOrderRequestNotExists = "ConfirmOrderOrderRequestNotExists",
+  CreateCategoryCategoryExists = "CreateCategoryCategoryExists",
+  CreateProductCategoryNotExists = "CreateProductCategoryNotExists",
+  DeleteCategoryCategoryNotExists = "DeleteCategoryCategoryNotExists",
+  DeleteProductProductNotExists = "DeleteProductProductNotExists",
+  LoginWrongPasswordError = "LoginWrongPasswordError",
+  LoginWrongUsernameError = "LoginWrongUsernameError",
+  ProductProductNotExists = "ProductProductNotExists",
+  RefreshUsedTokenError = "RefreshUsedTokenError",
+  RefreshWrongTokenError = "RefreshWrongTokenError",
+  RegisterEmailWrong = "RegisterEmailWrong",
+  RoleGuardForbidden = "RoleGuardForbidden",
+  UpdateCategoryCategoryNotExists = "UpdateCategoryCategoryNotExists",
+  UpdateProductProductNotExists = "UpdateProductProductNotExists",
+  VerifyEmailWrongToken = "VerifyEmailWrongToken"
 }
 
 export enum GqlFilterLogic {
