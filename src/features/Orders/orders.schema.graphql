@@ -1,0 +1,62 @@
+type Query {
+    orders(input: OrdersQueryInput): OrdersQueryResult!
+}
+
+type Mutation {
+    createOrder(products: [CreateOrderProductsList!]): CreateOrderResult!
+    confirmOrder(token: String!): ConfirmOrderResult!
+}
+
+type ConfirmOrderResult {
+    id: Id
+}
+
+input CreateOrderProductsList {
+    id: Id!,
+    quantity: Int!
+}
+
+input OrdersQueryInput {
+    isAdmin: Boolean
+    orderIds: [Id!]
+    isCompleted: Boolean
+    orderTokens: [String!]
+    usersIds: [Id!]
+    productsIds: [Id!]
+    datePeriod: DatePeriod
+    pageData: PageDataInput
+}
+
+type OrdersQueryResult {
+    pageData: PageData
+    items: [Order!]!
+}
+
+type Order {
+    id: Id,
+    confirmCode: String,
+    isCompleted: Boolean,
+    expiresIn: String,
+    createdAt: String,
+    userId: Id,
+    totalSum: Int,
+    date: String,
+    products: [OrderProduct!]
+}
+
+type OrderProduct {
+    id: Id
+    covers: [String!]
+    category: String!
+    description: String!
+    name: String!
+    price: Int!
+    quantity: Int!
+    buyedWithPrice: Int!
+    attributes: [ProductAttribute!]!
+}
+
+type CreateOrderResult {
+    token: String!
+    expiresIn: String!
+}

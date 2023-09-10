@@ -1,0 +1,35 @@
+type Query {
+    categories: [QueryCategory!]!
+}
+
+type Mutation {
+    createCategory(name: String!): Category!
+    deleteCategory(name: String!): Category!
+    updateCategory(originalName: String!, newName: String!): Category!
+}
+
+type Category {
+    name: String!
+    attributes: [CategoryAttribute]!
+}
+
+type CategoryAttribute {
+    name: String!
+    value: String!
+    count: Int!
+}
+
+type QueryCategory {
+    name: String!
+    attributes: [QueryCategoryAttribute]!
+}
+
+type QueryCategoryAttribute {
+    name: String!
+    values: [QueryAttribute!]
+}
+
+type QueryAttribute {
+    value: String!
+    count: Int!
+}

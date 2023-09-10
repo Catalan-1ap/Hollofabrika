@@ -1,0 +1,70 @@
+type Query {
+    products(input: ProductsQueryInput): ProductsQueryResult!
+    product(id: Id!): Product!
+}
+
+type Mutation {
+    createProduct(category: String!, product: CreateProductArgs!): Product!
+    deleteProduct(id: Id!): Product!
+    updateProduct(id: Id!, product: UpdateProductArgs!): Product!
+    changeCategory(id: Id!, category: String!): Product!
+}
+
+input ProductsQueryInput {
+    ids: [Id!]
+    categories: [String]
+    filter: ProductFilterQueryInput
+    pageData: PageDataInput
+}
+
+input ProductFilterQueryInput {
+    logic: FilterLogic!
+    attributes: [ProductInputAttribute!]
+}
+
+enum FilterLogic {
+    OR
+    AND
+}
+
+type ProductsQueryResult {
+    pageData: PageData
+    items: [Product!]!
+}
+
+input CreateProductArgs {
+    covers: [Upload!]
+    name: String!
+    description: String!
+    price: Int!
+    attributes: [ProductInputAttribute!]!
+}
+
+input UpdateProductArgs {
+    covers: [Upload!]
+    coversNamesToDelete: [String!]
+    name: String
+    description: String
+    price: Int
+    attributes: [ProductInputAttribute!]
+}
+
+type Product {
+    id: Id!
+    covers: [String!]
+    category: String!
+    description: String!
+    name: String!
+    price: Int!
+    attributes: [ProductAttribute!]!
+}
+
+type ProductAttribute {
+    name: String!
+    value: String!
+}
+
+input ProductInputAttribute {
+    name: String!
+    value: String!
+}

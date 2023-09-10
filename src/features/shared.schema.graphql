@@ -1,0 +1,70 @@
+scalar Id
+scalar Upload
+
+input PageDataInput {
+    page: Int!
+    pageSize: Int!
+}
+
+input DatePeriod {
+    from: String
+    to: String
+}
+
+type PageData {
+    totalPages: Int!
+    page: Int!,
+    pageSize: Int!
+}
+
+type Success {
+    code: SuccessCode!
+}
+
+enum SuccessCode {
+    Oke
+    ConfirmAction
+}
+
+type ValidationErrors {
+    errors: [[ValidationError!]!]
+}
+
+type ValidationError {
+    key: String!
+    messages: [String!]
+}
+
+type Error {
+    message: String!
+    code: ErrorCode
+}
+
+enum ErrorCode {
+    BadRequest
+    InternalError
+    NotFound,
+    Forbidden,
+}
+
+enum Errors {
+    LoginWrongUsernameError,
+    AnonymousGuardForbidden,
+    RoleGuardForbidden,
+    ChangeCategoryProductNotExists,
+    ChangeCategoryNewCategoryNotExists,
+    ChangeCategoryCategoriesAreSame,
+    ConfirmOrderOrderRequestNotExists,
+    CreateCategoryCategoryExists,
+    CreateProductCategoryNotExists,
+    DeleteCategoryCategoryNotExists,
+    DeleteProductProductNotExists,
+    LoginWrongPasswordError,
+    ProductProductNotExists,
+    RefreshWrongTokenError,
+    RefreshUsedTokenError,
+    RegisterEmailWrong,
+    UpdateCategoryCategoryNotExists,
+    UpdateProductProductNotExists,
+    VerifyEmailWrongToken
+}
