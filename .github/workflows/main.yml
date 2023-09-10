@@ -16,7 +16,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd ~/hollofabrika/
+            cd ~/Hollofabrika/
             git pull
             npm i
             npm run build
