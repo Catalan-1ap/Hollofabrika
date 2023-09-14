@@ -9,7 +9,7 @@ import fs from "fs/promises";
 export function makeCoversUrls(context: HollofabrikaContext) {
     return aql`
         length(product.coversFileNames) > 0 
-        ? product.coversFileNames[* return concat_separator("/", 
+        ? reverse(product.coversFileNames)[* return concat_separator("/", 
             ${context.koaContext.origin}, 
             ${productsCoversWebPath}, 
             CURRENT
