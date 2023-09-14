@@ -38,6 +38,7 @@ export const createOrderMutation: GqlMutationResolvers<HollofabrikaContext>["cre
         };
         const token = await querySingle<Document<DbMakeOrderToken> & { createdAt: number }>(context.db, aql`
             insert ${dbMakeOrderToken} into ${makeOrderTokensCollection}
+            options { waitForSync: true }
             return NEW
         `);
 
