@@ -19,7 +19,7 @@ export const verifyEmailMutation: GqlMutationResolvers<HollofabrikaContext>["ver
 
         const registerToken = await querySingle<DbRegisterToken>(context.db, aql`
 			for doc in ${registerTokensCollection}
-			filter doc.type == "register" and doc._key == ${args.emailToken}
+			filter doc._key == ${args.emailToken}
 			remove doc in ${registerTokensCollection}
 			return OLD
 		`);

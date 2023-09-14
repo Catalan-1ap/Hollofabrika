@@ -60,11 +60,11 @@ export const registerMutation: GqlMutationResolvers<HollofabrikaContext>["regist
                         subject: "Email Confirmation",
                         to: args.email,
                         text: `
-				    Hello, ${args.username}!
+Hello, ${args.username}!
 				    
-				    To verify your e-mail address, please use this key
+To verify your e-mail address, please use this key
 				    
-				    ${createdToken._key}`
+${createdToken._key}`
                     });
                 } catch (e) {
                     console.error(e);
