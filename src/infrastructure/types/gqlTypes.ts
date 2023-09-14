@@ -182,7 +182,6 @@ export type GqlMutation = {
   createOrder: GqlCreateOrderResult;
   createProduct: GqlProduct;
   deleteCategory: GqlCategory;
-  deleteProduct: GqlProduct;
   login: GqlJwtToken;
   refresh: GqlJwtToken;
   register: GqlSuccess;
@@ -221,11 +220,6 @@ export type GqlMutationCreateProductArgs = {
 
 export type GqlMutationDeleteCategoryArgs = {
     name: Scalars["String"];
-};
-
-
-export type GqlMutationDeleteProductArgs = {
-    id: Scalars["Id"];
 };
 
 
@@ -320,6 +314,7 @@ export type GqlProduct = {
     covers?: Maybe<Array<Scalars["String"]>>;
     description: Scalars["String"];
     id: Scalars["Id"];
+    isSafeDeleted: Scalars["Boolean"];
     name: Scalars["String"];
     price: Scalars["Int"];
 };
@@ -343,6 +338,7 @@ export type GqlProductsQueryInput = {
     categories?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   filter?: InputMaybe<GqlProductFilterQueryInput>;
     ids?: InputMaybe<Array<Scalars["Id"]>>;
+    isAdmin?: InputMaybe<Scalars["Boolean"]>;
   pageData?: InputMaybe<GqlPageDataInput>;
 };
 
@@ -408,6 +404,7 @@ export type GqlUpdateProductArgs = {
     covers?: InputMaybe<Array<Scalars["Upload"]>>;
     coversNamesToDelete?: InputMaybe<Array<Scalars["String"]>>;
     description?: InputMaybe<Scalars["String"]>;
+    isSafeDeleted?: InputMaybe<Scalars["Boolean"]>;
     name?: InputMaybe<Scalars["String"]>;
     price?: InputMaybe<Scalars["Int"]>;
 };
@@ -914,7 +911,6 @@ export type GqlMutationResolvers<ContextType = any, ParentType extends GqlResolv
     createOrder?: Resolver<GqlResolversTypes["CreateOrderResult"], ParentType, ContextType, Partial<GqlMutationCreateOrderArgs>>;
     createProduct?: Resolver<GqlResolversTypes["Product"], ParentType, ContextType, RequireFields<GqlMutationCreateProductArgs, "category" | "product">>;
     deleteCategory?: Resolver<GqlResolversTypes["Category"], ParentType, ContextType, RequireFields<GqlMutationDeleteCategoryArgs, "name">>;
-    deleteProduct?: Resolver<GqlResolversTypes["Product"], ParentType, ContextType, RequireFields<GqlMutationDeleteProductArgs, "id">>;
     login?: Resolver<GqlResolversTypes["JwtToken"], ParentType, ContextType, RequireFields<GqlMutationLoginArgs, "password" | "username">>;
     refresh?: Resolver<GqlResolversTypes["JwtToken"], ParentType, ContextType, RequireFields<GqlMutationRefreshArgs, "token">>;
     register?: Resolver<GqlResolversTypes["Success"], ParentType, ContextType, RequireFields<GqlMutationRegisterArgs, "email" | "password" | "username">>;
@@ -1020,6 +1016,7 @@ export type GqlProductResolvers<ContextType = any, ParentType extends GqlResolve
     covers?: Resolver<Maybe<Array<GqlResolversTypes["String"]>>, ParentType, ContextType>;
     description?: Resolver<GqlResolversTypes["String"], ParentType, ContextType>;
     id?: Resolver<GqlResolversTypes["Id"], ParentType, ContextType>;
+    isSafeDeleted?: Resolver<GqlResolversTypes["Boolean"], ParentType, ContextType>;
     name?: Resolver<GqlResolversTypes["String"], ParentType, ContextType>;
     price?: Resolver<GqlResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

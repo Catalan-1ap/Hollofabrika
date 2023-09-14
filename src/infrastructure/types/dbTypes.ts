@@ -29,6 +29,7 @@ export type DbProduct = {
     coversFileNames: string[],
     description: string,
     price: number,
+    isSafeDeleted: boolean,
     attributes: DbProductAttribute[]
 }
 

@@ -7,9 +7,9 @@ import { Document } from "arangojs/documents.js";
 import { DbCategory, DbProduct } from "../../../infrastructure/types/dbTypes.js";
 import { aql } from "arangojs";
 import { makeApplicationError } from "../../../infrastructure/formatErrorHandler.js";
-import { removeAttributes } from "./deleteProductMutation.js";
 import { addAttributes } from "./createProductMutation.js";
 import { queryCategory } from "../../Categories/categories.services.js";
+import { removeAttributes } from "../products.services.js";
 
 
 export const changeCategoryMutation: GqlMutationResolvers<HollofabrikaContext>["changeCategory"] =
@@ -58,6 +58,7 @@ export const changeCategoryMutation: GqlMutationResolvers<HollofabrikaContext>["
                 price: product.price,
                 description: product.description,
                 attributes: product.attributes,
+                isSafeDeleted: false,
                 coversFileNames: product.coversFileNames
             };
             const newProduct = await trx.step(() => querySingle<Document<DbProduct>>(context.db, aql`
@@ -85,6 +86,7 @@ export const changeCategoryMutation: GqlMutationResolvers<HollofabrikaContext>["
                     description: newProduct.description,
                     name: newProduct.name,
                     price: newProduct.price,
+                    isSafeDeleted: newProduct.isSafeDeleted,
                     attributes: newProduct.attributes
                 }
             };

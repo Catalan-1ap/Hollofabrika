@@ -5,13 +5,13 @@ type Query {
 
 type Mutation {
     createProduct(category: String!, product: CreateProductArgs!): Product!
-    deleteProduct(id: Id!): Product!
     updateProduct(id: Id!, product: UpdateProductArgs!): Product!
     changeCategory(id: Id!, category: String!): Product!
 }
 
 input ProductsQueryInput {
     ids: [Id!]
+    isAdmin: Boolean
     categories: [String]
     filter: ProductFilterQueryInput
     pageData: PageDataInput
@@ -46,6 +46,7 @@ input UpdateProductArgs {
     name: String
     description: String
     price: Int
+    isSafeDeleted: Boolean
     attributes: [ProductInputAttribute!]
 }
 
@@ -56,6 +57,7 @@ type Product {
     description: String!
     name: String!
     price: Int!
+    isSafeDeleted: Boolean!
     attributes: [ProductAttribute!]!
 }
 

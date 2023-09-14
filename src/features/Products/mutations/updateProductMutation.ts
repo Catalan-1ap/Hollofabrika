@@ -13,9 +13,9 @@ import { DbCategory, DbProduct } from "../../../infrastructure/types/dbTypes.js"
 import { aql } from "arangojs";
 import { makeApplicationError } from "../../../infrastructure/formatErrorHandler.js";
 import { getCategoriesCollection } from "../../Categories/categories.setup.js";
-import { removeAttributes, removeCovers } from "./deleteProductMutation.js";
 import { addAttributes, saveCovers } from "./createProductMutation.js";
 import { TransactionRecovery } from "../../../infrastructure/transactionRecovery.js";
+import { removeAttributes, removeCovers } from "../products.services.js";
 
 
 export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["updateProduct"] =
@@ -28,7 +28,8 @@ export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["u
             price: args.product.price,
             description: args.product.description,
             attributes: args.product.attributes,
-            coversFileNames: []
+            coversFileNames: [],
+            isSafeDeleted: args.product.isSafeDeleted
         };
         const productsCollection = context.db.collection(collection);
         const categoriesCollection = getCategoriesCollection(context.db);
@@ -89,6 +90,7 @@ export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["u
                     description: result.afterUpdate.description,
                     name: result.afterUpdate.name,
                     price: result.afterUpdate.price,
+                    isSafeDeleted: result.afterUpdate.isSafeDeleted,
                     attributes: result.afterUpdate.attributes
                 },
                 recoveryActions: new TransactionRecovery().mergeAll([

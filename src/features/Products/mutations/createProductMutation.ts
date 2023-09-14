@@ -39,6 +39,7 @@ export const createProductMutation: GqlMutationResolvers<HollofabrikaContext>["c
             price: args.product.price,
             description: args.product.description,
             attributes: args.product.attributes,
+            isSafeDeleted: false,
             coversFileNames: []
         };
         addAttributes(category, productToInsert.attributes);
@@ -73,6 +74,7 @@ export const createProductMutation: GqlMutationResolvers<HollofabrikaContext>["c
                     description: newProduct.description,
                     name: newProduct.name,
                     price: newProduct.price,
+                    isSafeDeleted: newProduct.isSafeDeleted,
                     attributes: newProduct.attributes
                 },
                 recoveryActions: new TransactionRecovery().mergeAll([

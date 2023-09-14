@@ -1,4 +1,4 @@
-import { GqlFilterLogic, GqlProduct, GqlQueryResolvers } from "../../../infrastructure/types/gqlTypes.js";
+import { GqlFilterLogic, GqlProduct, GqlQueryResolvers, GqlRole } from "../../../infrastructure/types/gqlTypes.js";
 import { HollofabrikaContext } from "../../../infrastructure/hollofabrikaContext.js";
 import { queryAll } from "../../../infrastructure/utils/arangoUtils.js";
 import { aql } from "arangojs";
@@ -17,6 +17,10 @@ export const productsQuery: GqlQueryResolvers<HollofabrikaContext>["products"] =
             page: 1,
             pageSize: defaultPageSize
         };
+
+        const isAdminRequestAllProductsFilter = context.user?.role === GqlRole.Admin && args.input.isAdmin
+            ? aql``
+            : aql`filter product.isSafeDeleted == false`;
 
         const filterByIds = args.input.ids?.length! > 0
             ? aql`filter product._id in ${args.input.ids}`
@@ -42,6 +46,7 @@ export const productsQuery: GqlQueryResolvers<HollofabrikaContext>["products"] =
             for product in ${allProductsView}
             ${joinCategory}
             filter parse_identifier(product._id).collection == category.collectionName
+            ${isAdminRequestAllProductsFilter}
             ${filterByIds}
             ${filterWithFilters}
             limit ${args.input.pageData.pageSize * (args.input.pageData.page - 1)}, ${args.input.pageData.pageSize}
@@ -50,6 +55,7 @@ export const productsQuery: GqlQueryResolvers<HollofabrikaContext>["products"] =
                 covers: ${makeCoversUrls(context)},
                 category: category.name,
                 name: product.name,
+                isSafeDeleted: product.isSafeDeleted,
                 description: product.description,
                 price: product.price,
                 attributes: product.attributes

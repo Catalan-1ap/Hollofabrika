@@ -1,6 +1,9 @@
 import { aql } from "arangojs";
 import { HollofabrikaContext } from "../../infrastructure/hollofabrikaContext.js";
-import { productsCoversWebPath } from "./productsConstants.js";
+import { productsCoversPath, productsCoversWebPath } from "./productsConstants.js";
+import { DbCategory, DbProductAttribute } from "../../infrastructure/types/dbTypes.js";
+import path from "path";
+import fs from "fs/promises";
 
 
 export function makeCoversUrls(context: HollofabrikaContext) {
@@ -17,4 +20,29 @@ export function makeCoversUrls(context: HollofabrikaContext) {
             ${process.env.SERVER_STATIC_FALLBACK_FILENAME}
         )]
     `;
+}
+
+
+export function removeAttributes(category: DbCategory, attributes: DbProductAttribute[]) {
+    for (let attribute of attributes) {
+        const categoryAttributeIndex = category.attributes
+            .findIndex(x => x.name === attribute.name && x.value === attribute.value);
+        const categoryAttribute = category.attributes[categoryAttributeIndex];
+
+        if (!categoryAttribute)
+            continue;
+
+        categoryAttribute.count--;
+
+        if (categoryAttribute.count <= 0)
+            category.attributes.splice(categoryAttributeIndex, 1);
+    }
+}
+
+
+export async function removeCovers(coversFileNames: string[]) {
+    for (const coverFileName of coversFileNames) {
+        const coverPath = path.join(productsCoversPath, coverFileName);
+        await fs.unlink(coverPath);
+    }
 }

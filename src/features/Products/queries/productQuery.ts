@@ -23,6 +23,7 @@ export const productQuery: GqlQueryResolvers<HollofabrikaContext>["product"] =
                 covers: ${makeCoversUrls(context)},
                 category: category.name,
                 name: product.name,
+                isSafeDeleted: product.isSafeDeleted,
                 description: product.description,
                 price: product.price,
                 attributes: product.attributes
