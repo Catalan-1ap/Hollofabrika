@@ -66,5 +66,7 @@ enum Errors {
     RegisterEmailWrong,
     UpdateCategoryCategoryNotExists,
     UpdateProductProductNotExists,
-    VerifyEmailWrongToken
+    VerifyEmailWrongToken,
+    RegisterUsernameInUseError,
+    RegisterEmailInUseError
 }

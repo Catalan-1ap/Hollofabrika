@@ -83,8 +83,8 @@ export const registerMutation: GqlMutationResolvers<HollofabrikaContext>["regist
 
 function throwIfFieldsAreDuplicated(user: DbUser, args: GqlMutationRegisterArgs) {
     const fieldsToCheck = [
-        { name: "username", message: "Register_UsernameInUseError" },
-        { name: "email", message: "Register_EmailInUseError" }
+        { name: "username", message: GqlErrors.RegisterUsernameInUseError },
+        { name: "email", message: GqlErrors.RegisterEmailInUseError }
     ] satisfies {
         name: keyof GqlUser,
         message: string
