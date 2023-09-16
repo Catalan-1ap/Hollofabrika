@@ -7,14 +7,13 @@ import {
 } from "../../../infrastructure/types/gqlTypes.js";
 import { HollofabrikaContext } from "../../../infrastructure/hollofabrikaContext.js";
 import { roleGuard } from "../../../infrastructure/guards/authGuards.js";
-import { parseIdentifier, querySingle, transaction } from "../../../infrastructure/utils/arangoUtils.js";
+import { parseIdentifier, querySingle } from "../../../infrastructure/utils/arangoUtils.js";
 import { Document } from "arangojs/documents.js";
 import { DbCategory, DbProduct } from "../../../infrastructure/types/dbTypes.js";
 import { aql } from "arangojs";
 import { makeApplicationError } from "../../../infrastructure/formatErrorHandler.js";
 import { getCategoriesCollection } from "../../Categories/categories.setup.js";
 import { addAttributes, saveCovers } from "./createProductMutation.js";
-import { TransactionRecovery } from "../../../infrastructure/transactionRecovery.js";
 import { removeAttributes, removeCovers } from "../products.services.js";
 
 
@@ -49,55 +48,44 @@ export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["u
             return doc
         `);
 
-        return await transaction(context.db, {
-            write: [productsCollection],
-            exclusive: [categoriesCollection]
-        }, async trx => {
-            const { updatedCovers, updateCoversResult } = await updateCovers(
-                oldProduct,
-                args.product.covers ?? [],
-                args.product.coversNamesToDelete
-            );
-            productToInsert.coversFileNames = updatedCovers;
+        const { updatedCovers, updateCoversResult } = await updateCovers(
+            oldProduct,
+            args.product.covers ?? [],
+            args.product.coversNamesToDelete
+        );
+        productToInsert.coversFileNames = updatedCovers;
 
-            const result = await trx.step(() =>
-                querySingle<{
-                    beforeUpdate: Document<DbProduct>,
-                    afterUpdate: Document<DbProduct>
-                }>(context.db, aql`
+        const result = await
+            querySingle<{
+                beforeUpdate: Document<DbProduct>,
+                afterUpdate: Document<DbProduct>
+            }>(context.db, aql`
                     update ${key} with ${productToInsert} in ${productsCollection}
                     options { ignoreErrors: true, waitForSync: true }
                     return { beforeUpdate: OLD, afterUpdate: NEW }
                 `)
-            );
 
-            if (productToInsert.attributes) {
-                removeAttributes(category, result.beforeUpdate.attributes);
-                addAttributes(category, result.afterUpdate.attributes);
+        if (productToInsert.attributes) {
+            removeAttributes(category, result.beforeUpdate.attributes);
+            addAttributes(category, result.afterUpdate.attributes);
 
-                await trx.step(() => context.db.query(aql`
+            await context.db.query(aql`
                     update ${category}
                     with ${category} in ${categoriesCollection}
                     options { ignoreRevs: false, waitForSync: true }
-                `));
-            }
+                `);
+        }
 
-            return {
-                data: {
-                    id: result.afterUpdate._id,
-                    covers: result.afterUpdate.coversFileNames,
-                    category: category.name,
-                    description: result.afterUpdate.description,
-                    name: result.afterUpdate.name,
-                    price: result.afterUpdate.price,
-                    isSafeDeleted: result.afterUpdate.isSafeDeleted,
-                    attributes: result.afterUpdate.attributes
-                },
-                recoveryActions: new TransactionRecovery().mergeAll([
-                    updateCoversResult.transactionRecovery
-                ])
-            };
-        });
+        return {
+            id: result.afterUpdate._id,
+            covers: result.afterUpdate.coversFileNames,
+            category: category.name,
+            description: result.afterUpdate.description,
+            name: result.afterUpdate.name,
+            price: result.afterUpdate.price,
+            isSafeDeleted: result.afterUpdate.isSafeDeleted,
+            attributes: result.afterUpdate.attributes
+        };
     };
 
 
