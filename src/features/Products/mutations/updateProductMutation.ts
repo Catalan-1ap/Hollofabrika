@@ -50,8 +50,7 @@ export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["u
         `);
 
         return await transaction(context.db, {
-            write: [productsCollection],
-            exclusive: [categoriesCollection]
+            exclusive: [categoriesCollection, productsCollection]
         }, async trx => {
             const { updatedCovers, updateCoversResult } = await updateCovers(
                 oldProduct,
