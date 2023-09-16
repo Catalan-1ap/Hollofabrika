@@ -63,10 +63,12 @@ enum Errors {
     ProductProductNotExists,
     RefreshWrongTokenError,
     RefreshUsedTokenError,
-    RegisterEmailWrong,
+    RegisterEmailSendingError,
     UpdateCategoryCategoryNotExists,
     UpdateProductProductNotExists,
     VerifyEmailWrongToken,
     RegisterUsernameInUseError,
-    RegisterEmailInUseError
+    RegisterEmailInUseError,
+    RequestResetPasswordWrongEmailError,
+    RequestResetEmailSendingError
 }

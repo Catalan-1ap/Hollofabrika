@@ -51,6 +51,12 @@ export type DbRefreshToken = {
     expireAt: string
 }
 
+export type DbPasswordResetToken = {
+    payload: {
+        email: string
+    }
+}
+
 export interface DbRegisterToken {
     payload: Omit<DbUser, "role">
 }

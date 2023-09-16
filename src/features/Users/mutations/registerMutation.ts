@@ -68,7 +68,7 @@ ${createdToken._key}`
                     });
                 } catch (e) {
                     console.error(e);
-                    throw makeApplicationError(GqlErrors.RegisterEmailWrong, GqlErrorCode.InternalError);
+                    throw makeApplicationError(GqlErrors.RegisterEmailSendingError, GqlErrorCode.InternalError);
                 }
             }
 
