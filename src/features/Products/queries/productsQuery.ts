@@ -62,6 +62,8 @@ export const productsQuery: GqlQueryResolvers<HollofabrikaContext>["products"] =
             }
         `, { fullCount: true });
 
+        console.log(`PRODUCTS QUERY — `, items);
+
         return {
             pageData: {
                 ...args.input.pageData,

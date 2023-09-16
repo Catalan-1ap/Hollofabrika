@@ -128,7 +128,6 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
                 )
             }
         `;
-        console.log(`OrderQuery — `, query);
         const { items, depletedCursor } = await queryAll<GqlOrder>(context.db, query, {});
 
         return {
