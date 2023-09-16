@@ -31,7 +31,7 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
         const returnUserDataForAdmin = context.user.role === GqlRole.Admin && args.input.isAdmin
             ? aql`user: (
                 for user in ${usersCollection}
-                filter user.id == order.userId
+                filter user._id == order.userId
                 return {
                     username: user.username,
                     email: user.email
