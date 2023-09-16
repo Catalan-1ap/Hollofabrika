@@ -66,7 +66,7 @@ export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["u
                     afterUpdate: Document<DbProduct>
                 }>(context.db, aql`
                     update ${key} with ${productToInsert} in ${productsCollection}
-                    options { ignoreErrors: true }
+                    options { ignoreErrors: true, waitForSync: true }
                     return { beforeUpdate: OLD, afterUpdate: NEW }
                 `)
             );
@@ -78,7 +78,7 @@ export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["u
                 await trx.step(() => context.db.query(aql`
                     update ${category}
                     with ${category} in ${categoriesCollection}
-                    options { ignoreRevs: false }
+                    options { ignoreRevs: false, waitForSync: true }
                 `));
             }
 

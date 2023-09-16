@@ -266,7 +266,7 @@ export type GqlOrder = {
     isCompleted?: Maybe<Scalars["Boolean"]>;
   products?: Maybe<Array<GqlOrderProduct>>;
     totalSum?: Maybe<Scalars["Int"]>;
-    userId?: Maybe<Scalars["Id"]>;
+    user?: Maybe<GqlUser>;
 };
 
 export type GqlOrderProduct = {
@@ -960,7 +960,7 @@ export type GqlOrderResolvers<ContextType = any, ParentType extends GqlResolvers
     isCompleted?: Resolver<Maybe<GqlResolversTypes["Boolean"]>, ParentType, ContextType>;
     products?: Resolver<Maybe<Array<GqlResolversTypes["OrderProduct"]>>, ParentType, ContextType>;
     totalSum?: Resolver<Maybe<GqlResolversTypes["Int"]>, ParentType, ContextType>;
-    userId?: Resolver<Maybe<GqlResolversTypes["Id"]>, ParentType, ContextType>;
+    user?: Resolver<Maybe<GqlResolversTypes["User"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

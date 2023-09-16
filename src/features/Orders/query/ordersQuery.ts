@@ -10,6 +10,7 @@ import { getAllOrdersView } from "../orders.setup.js";
 import { roleGuard } from "../../../infrastructure/guards/authGuards.js";
 import ms from "ms";
 import { millisecondsToSeconds } from "../../../infrastructure/utils/dateTime.js";
+import { getUsersCollection } from "../../Users/users.setup.js";
 
 
 export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
@@ -25,6 +26,18 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
         const isAdminRequestAllOrdersFilter = context.user.role === GqlRole.Admin && args.input.isAdmin
             ? aql``
             : aql`filter order.userId == ${context.user.userId}`;
+
+        const usersCollection = getUsersCollection(context.db);
+        const returnUserDataForAdmin = context.user.role === GqlRole.Admin && args.input.isAdmin
+            ? aql``
+            : aql`user: (
+                for user in ${usersCollection}
+                filter user.id == order.userId
+                return {
+                    username: user.username,
+                    email: user.email
+                }
+            ),`;
 
         const onlyMyOrdersWhenIAmStandaloneFilter = context.user.role === GqlRole.Standalone
             ? aql`filter order.userId == ${context.user.userId}`
@@ -93,7 +106,7 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
                 isCompleted: isCompleted,
                 confirmCode: doc.payload ? order._key : null,
                 expiresIn: doc.payload ? DATE_ISO8601((doc.createdAt + ${millisecondsToSeconds(ms(process.env.MAKEORDER_TOKEN_EXPIRE!))}) * 1000) : null,
-                userId: order.userId,
+                ${returnUserDataForAdmin}
                 totalSum: order.totalSum,
                 date: order.date,
                 createdIn: order.createdIn,

@@ -51,7 +51,7 @@ export const changeCategoryMutation: GqlMutationResolvers<HollofabrikaContext>["
 
             await trx.step(() => querySingle<Document<DbProduct>>(context.db, aql`
                 remove ${product} in ${oldCategoryProducts}
-                options { ignoreErrors: true, ignoreRevs: false }
+                options { ignoreErrors: true, ignoreRevs: false, waitForSync: true }
             `));
             const productToInsert: Required<DbProduct> = {
                 name: product.name,
@@ -63,19 +63,19 @@ export const changeCategoryMutation: GqlMutationResolvers<HollofabrikaContext>["
             };
             const newProduct = await trx.step(() => querySingle<Document<DbProduct>>(context.db, aql`
                 insert ${productToInsert} in ${newCategoryProducts}
-                options { ignoreErrors: true }
+                options { ignoreErrors: true, waitForSync: true }
                 return NEW
             `));
 
             await trx.step(() => context.db.query(aql`
                 update ${oldCategory}
                 with ${oldCategory} in ${categoriesCollection}
-                options { ignoreRevs: false }
+                options { ignoreRevs: false, waitForSync: true }
             `));
             await trx.step(() => context.db.query(aql`
                 update ${newCategory}
                 with ${newCategory} in ${categoriesCollection}
-                options { ignoreRevs: false }
+                options { ignoreRevs: false, waitForSync: true }
             `));
 
             return {

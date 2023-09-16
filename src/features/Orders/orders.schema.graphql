@@ -38,10 +38,15 @@ type Order {
     isCompleted: Boolean,
     expiresIn: String,
     createdAt: String,
-    userId: Id,
+    user: User,
     totalSum: Int,
     date: String,
     products: [OrderProduct!]
+}
+
+type User {
+    email: String,
+    username: String
 }
 
 type OrderProduct {
