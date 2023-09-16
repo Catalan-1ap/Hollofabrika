@@ -29,15 +29,15 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
 
         const usersCollection = getUsersCollection(context.db);
         const returnUserDataForAdmin = context.user.role === GqlRole.Admin && args.input.isAdmin
-            ? aql``
-            : aql`user: (
+            ? aql`user: (
                 for user in ${usersCollection}
                 filter user.id == order.userId
                 return {
                     username: user.username,
                     email: user.email
                 }
-            ),`;
+            ),`
+            : aql``;
 
         const onlyMyOrdersWhenIAmStandaloneFilter = context.user.role === GqlRole.Standalone
             ? aql`filter order.userId == ${context.user.userId}`
