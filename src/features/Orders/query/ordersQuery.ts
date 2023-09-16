@@ -29,7 +29,7 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
 
         const usersCollection = getUsersCollection(context.db);
         const returnUserDataForAdmin = context.user.role === GqlRole.Admin && args.input.isAdmin
-            ? aql`user: (
+            ? aql`user: FIRST(
                 for user in ${usersCollection}
                 filter user._id == order.userId
                 return {
