@@ -40,6 +40,7 @@ await import("envalid").then(z => z.cleanEnv(process.env, {
     GMAIL_PASSWORD: z.str(),
 
     REGISTER_TOKEN_EXPIRE: z.str(),
+    PASSWORDRESET_TOKEN_EXPIRE: z.str(),
     MAKEORDER_TOKEN_EXPIRE: z.str(),
 }));
 
