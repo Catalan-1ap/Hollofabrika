@@ -161,6 +161,7 @@ export enum GqlErrors {
   RegisterUsernameInUseError = "RegisterUsernameInUseError",
   RequestResetEmailSendingError = "RequestResetEmailSendingError",
   RequestResetPasswordWrongEmailError = "RequestResetPasswordWrongEmailError",
+  RequestResetPasswordWrongToken = "RequestResetPasswordWrongToken",
   RoleGuardForbidden = "RoleGuardForbidden",
   UpdateCategoryCategoryNotExists = "UpdateCategoryCategoryNotExists",
   UpdateProductProductNotExists = "UpdateProductProductNotExists",
@@ -180,6 +181,7 @@ export type GqlJwtToken = {
 export type GqlMutation = {
   changeCategory: GqlProduct;
   confirmOrder: GqlConfirmOrderResult;
+  confirmResetPassword: GqlSuccess;
   createCategory: GqlCategory;
   createOrder: GqlCreateOrderResult;
   createProduct: GqlProduct;
@@ -201,6 +203,12 @@ export type GqlMutationChangeCategoryArgs = {
 
 
 export type GqlMutationConfirmOrderArgs = {
+  token: Scalars["String"];
+};
+
+
+export type GqlMutationConfirmResetPasswordArgs = {
+  password: Scalars["String"];
   token: Scalars["String"];
 };
 
@@ -915,6 +923,7 @@ export interface GqlMacScalarConfig extends GraphQLScalarTypeConfig<GqlResolvers
 export type GqlMutationResolvers<ContextType = any, ParentType extends GqlResolversParentTypes["Mutation"] = GqlResolversParentTypes["Mutation"]> = {
   changeCategory?: Resolver<GqlResolversTypes["Product"], ParentType, ContextType, RequireFields<GqlMutationChangeCategoryArgs, "category" | "id">>;
   confirmOrder?: Resolver<GqlResolversTypes["ConfirmOrderResult"], ParentType, ContextType, RequireFields<GqlMutationConfirmOrderArgs, "token">>;
+  confirmResetPassword?: Resolver<GqlResolversTypes["Success"], ParentType, ContextType, RequireFields<GqlMutationConfirmResetPasswordArgs, "password" | "token">>;
   createCategory?: Resolver<GqlResolversTypes["Category"], ParentType, ContextType, RequireFields<GqlMutationCreateCategoryArgs, "name">>;
   createOrder?: Resolver<GqlResolversTypes["CreateOrderResult"], ParentType, ContextType, Partial<GqlMutationCreateOrderArgs>>;
   createProduct?: Resolver<GqlResolversTypes["Product"], ParentType, ContextType, RequireFields<GqlMutationCreateProductArgs, "category" | "product">>;

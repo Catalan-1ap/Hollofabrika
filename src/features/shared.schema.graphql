@@ -70,5 +70,6 @@ enum Errors {
     RegisterUsernameInUseError,
     RegisterEmailInUseError,
     RequestResetPasswordWrongEmailError,
-    RequestResetEmailSendingError
+    RequestResetEmailSendingError,
+    RequestResetPasswordWrongToken
 }

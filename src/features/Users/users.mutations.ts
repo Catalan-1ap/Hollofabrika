@@ -3,6 +3,7 @@ import { refreshMutation } from "./mutations/refreshMutation.js";
 import { registerMutation } from "./mutations/registerMutation.js";
 import { verifyEmailMutation } from "./mutations/verifyEmailMutation.js";
 import { requestResetPasswordMutation } from "./mutations/requestResetPassword.js";
+import { confirmResetPasswordMutation } from "./mutations/confirmResetPassword.js";
 
 
 export default {
@@ -11,6 +12,7 @@ export default {
 		verifyEmail: verifyEmailMutation,
 		login: loginMutation,
 		refresh: refreshMutation,
-		requestResetPassword: requestResetPasswordMutation
+		requestResetPassword: requestResetPasswordMutation,
+		confirmResetPassword: confirmResetPasswordMutation
 	}
 };

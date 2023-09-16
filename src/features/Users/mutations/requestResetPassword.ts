@@ -36,10 +36,12 @@ export const requestResetPasswordMutation: GqlMutationResolvers<HollofabrikaCont
         return await transaction(context.db, {
             write: [passwordResetTokensCollection]
         }, async trx => {
-            const createdToken = await trx.step(() => querySingle<Document<DbPasswordResetToken>>(context.db, aql`
-			    insert ${token} into ${passwordResetTokensCollection}
-			    return NEW
-		    `));
+            const createdToken = await trx.step(() =>
+                querySingle<Document<DbPasswordResetToken>>(context.db, aql`
+			        insert ${token} into ${passwordResetTokensCollection}
+			        return NEW
+		        `)
+            );
 
             if (process.env.NODE_ENV === "production") {
                 try {
