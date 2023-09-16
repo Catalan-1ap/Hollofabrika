@@ -33,7 +33,8 @@ export async function transaction<T>(
     callback: (trx: Transaction) => Promise<TransactionResult<T>>
 ) {
     const trx = await db.beginTransaction(collections, {
-        allowImplicit: false
+        allowImplicit: false,
+        waitForSync: true
     });
 
     let result: TransactionResult<T> | undefined;
