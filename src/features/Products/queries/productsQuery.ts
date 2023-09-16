@@ -60,9 +60,7 @@ export const productsQuery: GqlQueryResolvers<HollofabrikaContext>["products"] =
                 price: product.price,
                 attributes: product.attributes
             }
-        `, { fullCount: true });
-
-        console.log(`PRODUCTS QUERY — `, items);
+        `, { fullCount: true, cache: false });
 
         return {
             pageData: {
