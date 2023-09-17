@@ -44,7 +44,7 @@ export const confirmResetPasswordMutation: GqlMutationResolvers<HollofabrikaCont
             );
             await trx.step(() =>
                 querySingle<Document<DbPasswordResetToken>>(context.db, aql`
-			        for doc into ${passwordResetTokensCollection}
+			        for doc in ${passwordResetTokensCollection}
 			        filter doc.payload.email == ${passwordResetRequest.payload.email}
 			        remove doc in ${passwordResetTokensCollection}
 		        `)
