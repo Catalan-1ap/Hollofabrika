@@ -82,11 +82,11 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
                 createdAt: doc.createdAt
             }) : doc
             let isCompleted = doc.payload ? false : true
+            ${onlyWithSelectedOrdersTokensFilter}
+            ${onlyWithSelectedOrdersIdsFilter}
             ${isCompletedFilter}
             ${isAdminRequestAllOrdersFilter}
             ${onlyMyOrdersWhenIAmStandaloneFilter}
-            ${onlyWithSelectedOrdersTokensFilter}
-            ${onlyWithSelectedOrdersIdsFilter}
             ${dateFilter}
             ${onlyWithSelectedUsersIdsFilter}
             ${onlyWithSelectedProductsIdsFilter}
