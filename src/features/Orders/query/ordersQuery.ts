@@ -39,6 +39,7 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
             ),`
             : aql``;
 
+        console.log("user", context.user);
         const onlyMyOrdersWhenIAmStandaloneFilter = context.user.role === GqlRole.Standalone
             ? aql`filter order.userId == ${context.user.userId}`
             : aql``;
