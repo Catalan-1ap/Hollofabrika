@@ -15,7 +15,7 @@ import { makeApplicationError } from "../../../infrastructure/formatErrorHandler
 import { getCategoriesCollection } from "../../Categories/categories.setup.js";
 import { addAttributes, saveCovers } from "./createProductMutation.js";
 import { TransactionRecovery } from "../../../infrastructure/transactionRecovery.js";
-import { removeAttributes, removeCovers } from "../products.services.js";
+import { makeCoversUrlsLocal, removeAttributes, removeCovers } from "../products.services.js";
 
 
 export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["updateProduct"] =
@@ -85,7 +85,7 @@ export const updateProductMutation: GqlMutationResolvers<HollofabrikaContext>["u
             return {
                 data: {
                     id: result.afterUpdate._id,
-                    covers: result.afterUpdate.coversFileNames,
+                    covers: makeCoversUrlsLocal(result.afterUpdate.coversFileNames, context),
                     category: category.name,
                     description: result.afterUpdate.description,
                     name: result.afterUpdate.name,

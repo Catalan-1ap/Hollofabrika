@@ -3,7 +3,7 @@ import { HollofabrikaContext } from "../../../infrastructure/hollofabrikaContext
 import { queryAll } from "../../../infrastructure/utils/arangoUtils.js";
 import { aql } from "arangojs";
 import { defaultPageSize } from "../../../infrastructure/constants.js";
-import { makeCoversUrls } from "../products.services.js";
+import { makeCoversUrlsArango } from "../products.services.js";
 import { getAllProductsView } from "../products.setup.js";
 import { getCategoriesCollection } from "../../Categories/categories.setup.js";
 
@@ -52,7 +52,7 @@ export const productsQuery: GqlQueryResolvers<HollofabrikaContext>["products"] =
             limit ${args.input.pageData.pageSize * (args.input.pageData.page - 1)}, ${args.input.pageData.pageSize}
             return {
                 id: product._id,
-                covers: ${makeCoversUrls(context)},
+                covers: ${makeCoversUrlsArango(context)},
                 category: category.name,
                 name: product.name,
                 isSafeDeleted: product.isSafeDeleted,

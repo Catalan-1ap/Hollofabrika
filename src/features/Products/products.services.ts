@@ -6,7 +6,7 @@ import path from "path";
 import fs from "fs/promises";
 
 
-export function makeCoversUrls(context: HollofabrikaContext) {
+export function makeCoversUrlsArango(context: HollofabrikaContext) {
     return aql`
         length(product.coversFileNames) > 0 
         ? reverse(product.coversFileNames)[* return concat_separator("/", 
@@ -20,6 +20,17 @@ export function makeCoversUrls(context: HollofabrikaContext) {
             ${process.env.SERVER_STATIC_FALLBACK_FILENAME}
         )]
     `;
+}
+
+
+export function makeCoversUrlsLocal(coversFileNames: string[], context: HollofabrikaContext) {
+    const results: string[] = [];
+
+    for (const coversFileName of coversFileNames) {
+        results.push(`${context.koaContext.origin}/${productsCoversWebPath}/${coversFileName}`);
+    }
+
+    return results;
 }
 
 

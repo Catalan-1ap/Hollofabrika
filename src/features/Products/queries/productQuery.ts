@@ -3,7 +3,7 @@ import { HollofabrikaContext } from "../../../infrastructure/hollofabrikaContext
 import { aql } from "arangojs";
 import { querySingle } from "../../../infrastructure/utils/arangoUtils.js";
 import { makeApplicationError } from "../../../infrastructure/formatErrorHandler.js";
-import { makeCoversUrls } from "../products.services.js";
+import { makeCoversUrlsArango } from "../products.services.js";
 import { getAllProductsView } from "../products.setup.js";
 import { getCategoriesCollection } from "../../Categories/categories.setup.js";
 
@@ -20,7 +20,7 @@ export const productQuery: GqlQueryResolvers<HollofabrikaContext>["product"] =
             filter product._id == ${args.id}
             return {
                 id: product._id,
-                covers: ${makeCoversUrls(context)},
+                covers: ${makeCoversUrlsArango(context)},
                 category: category.name,
                 name: product.name,
                 isSafeDeleted: product.isSafeDeleted,

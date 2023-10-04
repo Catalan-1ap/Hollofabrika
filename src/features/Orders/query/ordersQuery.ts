@@ -5,7 +5,7 @@ import { defaultPageSize } from "../../../infrastructure/constants.js";
 import { aql } from "arangojs";
 import { getCategoriesCollection } from "../../Categories/categories.setup.js";
 import { queryAll } from "../../../infrastructure/utils/arangoUtils.js";
-import { makeCoversUrls } from "../../Products/products.services.js";
+import { makeCoversUrlsArango } from "../../Products/products.services.js";
 import { getAllOrdersView } from "../orders.setup.js";
 import { roleGuard } from "../../../infrastructure/guards/authGuards.js";
 import ms from "ms";
@@ -39,7 +39,6 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
             ),`
             : aql``;
 
-        console.log("user", context.user.role === GqlRole.Standalone);
         const onlyMyOrdersWhenIAmStandaloneFilter = context.user.role === GqlRole.Standalone
             ? aql`filter order.userId == ${context.user.userId}`
             : aql``;
@@ -117,7 +116,7 @@ export const ordersQuery: GqlQueryResolvers<HollofabrikaContext>["orders"] =
                     filter parse_identifier(product._id).collection == category.collectionName
                     return {
                         id: product._id,
-                        covers: ${makeCoversUrls(context)},
+                        covers: ${makeCoversUrlsArango(context)},
                         category: category.name,
                         name: product.name,
                         description: product.description,

@@ -20,6 +20,7 @@ import { productsCoversPath } from "../productsConstants.js";
 import fs from "fs";
 import { catcherDeleteFile, finalizeWritableStream } from "../../../infrastructure/utils/filesUtils.js";
 import { pipeline } from "stream/promises";
+import { makeCoversUrlsLocal } from "../products.services.js";
 
 
 export const createProductMutation: GqlMutationResolvers<HollofabrikaContext>["createProduct"] =
@@ -69,7 +70,7 @@ export const createProductMutation: GqlMutationResolvers<HollofabrikaContext>["c
             return {
                 data: {
                     id: newProduct._id,
-                    covers: newProduct.coversFileNames,
+                    covers: makeCoversUrlsLocal(newProduct.coversFileNames, context),
                     category: category.name,
                     description: newProduct.description,
                     name: newProduct.name,
