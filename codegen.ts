@@ -1,6 +1,6 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
-
+//test
 const config: CodegenConfig = {
   overwrite: true,
   schema: "http://localhost:3333/graphql",
